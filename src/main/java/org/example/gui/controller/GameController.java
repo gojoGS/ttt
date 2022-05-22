@@ -138,7 +138,7 @@ public class GameController implements Initializable {
         }
 
         if (gameState.isCurrentPlayerWinner()) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText("Insa'Allah! Praised be God!");
             var result = alert.showAndWait();
 

@@ -105,6 +105,14 @@
           <scope>compile</scope>
       </dependency>
 
+<!--      just for the purpose of background music-->
+      <dependency>
+          <groupId>org.openjfx</groupId>
+          <artifactId>javafx-media</artifactId>
+          <version>${javafx.version}</version>
+      </dependency>
+
+
       <dependency>
           <groupId>org.projectlombok</groupId>
           <artifactId>lombok</artifactId>
