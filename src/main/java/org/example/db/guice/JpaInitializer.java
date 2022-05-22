@@ -9,7 +9,7 @@ import javax.inject.Singleton;
 public class JpaInitializer {
 
     @Inject
-    public JpaInitializer (PersistService persistService) {
+    public JpaInitializer(PersistService persistService) {
         persistService.start();
     }
 

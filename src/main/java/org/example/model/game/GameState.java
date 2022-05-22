@@ -7,8 +7,17 @@ import org.example.model.player.PlayerColor;
 import java.util.Optional;
 
 public interface GameState {
+    boolean isPositionAlreadyOccupied(Position position);
+
+    boolean isPositionAlreadySelectedAsPlanned(Position position);
+
+    boolean doesPlayerHavePlannedPosition();
+
+    Optional<Position> getPlannedPosition();
+
     /**
      * Mark a position as the possible next move, without really changing the ownership of that position
+     *
      * @param position the position that is planned to be occupied
      * @throws PositionAlreadyOccupiedException if the chosen position is already occupied
      */
@@ -21,6 +30,7 @@ public interface GameState {
 
     /**
      * Occupy the position by the current player; it also unsets the mark on the planned position
+     *
      * @param position the position to be occupied
      */
     void occupyPositionByCurrentPlayer(Position position);
@@ -47,6 +57,7 @@ public interface GameState {
      *     <li>neither of the players can be declared winner,</li>
      * </ul>
      * then the game is a draw.
+     *
      * @return Returns whether the state of the game is in a draw state.
      */
     boolean isDraw();
@@ -58,32 +69,45 @@ public interface GameState {
     void endTurn();
 
     /**
-     * If the current player yields, the opposite player wind the game.
+     * If the current player yields, the opposite player wins the game.
      */
     void yield();
 
     /**
      * Returns a POJO containing data about the finished game
+     *
      * @return a {@link GameResult} instance describing the game
      */
     GameResult getGameResult();
 
     /**
      * Return the owner of a position, if it has any
+     *
      * @param position said position
      * @return the owner of said position wrapped in an Optional, or an empty optional if no owner found;
      */
     Optional<PlayerColor> getOwnerOfPosition(Position position);
 
+    GameResult getDrawGameResult();
+
     /**
      * Returns the color of the current player
+     *
      * @return the color of the current player
      */
     PlayerColor getCurrentPlayerColor();
 
     /**
      * Returns the current player
+     *
      * @return the current player
      */
     Player getCurrentPlayer();
+
+    /**
+     * returns the size of the board
+     *
+     * @return the size of the board
+     */
+    long getBoardSize();
 }

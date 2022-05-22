@@ -5,7 +5,7 @@ import com.google.inject.persist.jpa.JpaPersistModule;
 
 public class PersistenceModule extends AbstractModule {
 
-    private String jpaUnit;
+    private final String jpaUnit;
 
     public PersistenceModule(String jpaUnit) {
         this.jpaUnit = jpaUnit;

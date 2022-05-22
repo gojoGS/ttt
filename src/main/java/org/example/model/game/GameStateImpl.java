@@ -14,7 +14,7 @@ public class GameStateImpl implements GameState {
     private static final long BOARD_SIZE = 3;
     private final Map<Position, Optional<PlayerColor>> positionToOwnerMapping;
     private final Map<PlayerColor, Player> colorToPlayerMapping;
-    private final int numberOfTurns;
+    private int numberOfTurns;
     private PlayerColor currentPlayerColor;
     private Optional<Position> plannedPosition;
 
@@ -33,10 +33,26 @@ public class GameStateImpl implements GameState {
         }
     }
 
-    private boolean isPositionAlreadyOccupied(Position position) {
+    @Override
+    public boolean isPositionAlreadyOccupied(Position position) {
         var owner = positionToOwnerMapping.get(position);
 
         return owner.isPresent();
+    }
+
+    @Override
+    public boolean isPositionAlreadySelectedAsPlanned(Position position) {
+        return plannedPosition.isPresent() && plannedPosition.get().equals(position);
+    }
+
+    @Override
+    public boolean doesPlayerHavePlannedPosition() {
+        return this.plannedPosition.isPresent();
+    }
+
+    @Override
+    public Optional<Position> getPlannedPosition() {
+        return plannedPosition;
     }
 
     private boolean doesCurrentPlayerHasAFullRow() {
@@ -108,7 +124,8 @@ public class GameStateImpl implements GameState {
             throw new PositionAlreadyOccupiedException(position);
         }
 
-        plannedPosition = Optional.empty();
+        this.positionToOwnerMapping.put(position, Optional.of(currentPlayerColor));
+        unsetPositionOfNextMove();
     }
 
     @Override public Optional<PlayerColor> getOwnerOfPosition(Position position) {
@@ -134,6 +151,7 @@ public class GameStateImpl implements GameState {
 
     @Override public void endTurn() {
         currentPlayerColor = currentPlayerColor.getOpposite();
+        ++numberOfTurns;
     }
 
     @Override public void yield() {
@@ -149,11 +167,24 @@ public class GameStateImpl implements GameState {
             .build();
     }
 
+    @Override public GameResult getDrawGameResult() {
+        return GameResult.builder()
+            .redPlayerName(colorToPlayerMapping.get(PlayerColor.RED).getName())
+            .bluePlayerName(colorToPlayerMapping.get(PlayerColor.BLUE).getName())
+            .colorOfWinner(null)
+            .numberOfTurns(numberOfTurns)
+            .build();
+    }
+
     @Override public PlayerColor getCurrentPlayerColor() {
         return currentPlayerColor;
     }
 
     @Override public Player getCurrentPlayer() {
         return colorToPlayerMapping.get(currentPlayerColor);
+    }
+
+    @Override public long getBoardSize() {
+        return BOARD_SIZE;
     }
 }

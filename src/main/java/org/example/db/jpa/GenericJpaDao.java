@@ -15,8 +15,11 @@ public abstract class GenericJpaDao<T> {
     protected EntityManager entityManager;
 
     public GenericJpaDao() {
-        Class clazz = !getClass().getName().contains("$$EnhancerByGuice$$") ? getClass() : getClass().getSuperclass(); // dirty Guice trick
-        entityClass = (Class<T>) ((ParameterizedType) clazz.getGenericSuperclass()).getActualTypeArguments()[0];
+        Class clazz = !getClass().getName().contains("$$EnhancerByGuice$$") ?
+            getClass() :
+            getClass().getSuperclass(); // dirty Guice trick
+        entityClass =
+            (Class<T>) ((ParameterizedType) clazz.getGenericSuperclass()).getActualTypeArguments()[0];
     }
 
     public EntityManager getEntityManager() {
@@ -40,7 +43,9 @@ public abstract class GenericJpaDao<T> {
 
     @Transactional
     public List<T> findAll() {
-        TypedQuery<T> typedQuery = entityManager.createQuery("SELECT e FROM " + entityClass.getSimpleName() + " e", entityClass);
+        TypedQuery<T> typedQuery =
+            entityManager.createQuery("SELECT e FROM " + entityClass.getSimpleName() + " e",
+                entityClass);
         return typedQuery.getResultList();
     }
 
