@@ -128,7 +128,7 @@ public class GameController implements Initializable {
         rectangle.setFill(getPattern(gameState.getCurrentPlayerColor(), false));
 
         if (gameState.isDraw()) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText("Allah punishes the wrathful!");
             var result = alert.showAndWait();
 
@@ -138,7 +138,7 @@ public class GameController implements Initializable {
         }
 
         if (gameState.isCurrentPlayerWinner()) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText("Insa'Allah! Praised be God!");
             var result = alert.showAndWait();
 
@@ -148,7 +148,9 @@ public class GameController implements Initializable {
             }
             return;
         }
+
         gameState.endTurn();
+        playerName.setText(gameState.getCurrentPlayer().getName());
     }
 
     private void onFieldClick(MouseEvent mouseEvent) {
